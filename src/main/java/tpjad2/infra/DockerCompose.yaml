@@ -1,0 +1,64 @@
+version: '3.9'
+services:
+  postgres:
+    image: postgres:15
+    container_name: postgres-container
+    restart: always
+    environment:
+      POSTGRES_USER: your_username
+      POSTGRES_PASSWORD: your_password
+      POSTGRES_DB: your_database
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  mssql:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: mssql-container
+    restart: always
+    environment:
+      ACCEPT_EULA: "Y"
+      SA_PASSWORD: your_password
+    ports:
+      - "1433:1433"
+    volumes:
+      - mssql_data:/var/opt/mssql
+
+  oracle:
+    image: gvenzl/oracle-xe:21-slim
+    container_name: oracle-container
+    restart: always
+    environment:
+      ORACLE_PASSWORD: your_password
+    ports:
+      - "1521:1521"
+      - "5500:5500"
+    volumes:
+      - oracle_data:/opt/oracle/oradata
+
+  spring-app:
+    image: my-spring-app-wildfly
+    container_name: spring-app-container
+    restart: always
+    depends_on:
+      - postgres
+      - mssql
+      - oracle
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_DATASOURCE_POSTGRES_URL: jdbc:postgresql://localhost:5432/your_database
+      SPRING_DATASOURCE_POSTGRES_USERNAME: your_username
+      SPRING_DATASOURCE_POSTGRES_PASSWORD: your_password
+      SPRING_DATASOURCE_MSSQL_URL: jdbc:sqlserver://localhost:1433;databaseName=your_database
+      SPRING_DATASOURCE_MSSQL_USERNAME: sa
+      SPRING_DATASOURCE_MSSQL_PASSWORD: your_password
+      SPRING_DATASOURCE_ORACLE_URL: jdbc:oracle:thin:@localhost:1521/your_service
+      SPRING_DATASOURCE_ORACLE_USERNAME: system
+      SPRING_DATASOURCE_ORACLE_PASSWORD: your_password
+
+volumes:
+  postgres_data:
+  mssql_data:
+  oracle_data:
