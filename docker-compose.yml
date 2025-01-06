@@ -1,4 +1,3 @@
-version: '3.9'
 services:
   postgres:
     image: postgres:15
@@ -38,7 +37,7 @@ services:
       - oracle_data:/opt/oracle/oradata
 
   spring-app:
-    image: my-spring-app-wildfly
+    build: .
     container_name: spring-app-container
     restart: always
     depends_on:
@@ -47,6 +46,7 @@ services:
       - oracle
     ports:
       - "8080:8080"
+      - "9990:9990"
     environment:
       SPRING_DATASOURCE_POSTGRES_URL: jdbc:postgresql://localhost:5432/your_database
       SPRING_DATASOURCE_POSTGRES_USERNAME: your_username
