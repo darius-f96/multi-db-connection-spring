@@ -58,6 +58,7 @@ docker cp initOracle.sql oracle-container:/init.sql
 docker exec -it oracle-container bash -c "sqlplus -s system/ora123@//localhost/FREEPDB1 @/init.sql"
 ```
 -	More about the image here: https://hub.docker.com/r/gvenzl/oracle-xe
+  
 MySql:
 ```
 docker cp initMySql.sql mssql-container:/initMySql.sql
