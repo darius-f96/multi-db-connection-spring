@@ -11,6 +11,7 @@ import java.util.List;
 public class ProductDTO {
     private Long productId;
     private String productName;
+    private float price;
     private List<OrderDTO> orders;
 }
 

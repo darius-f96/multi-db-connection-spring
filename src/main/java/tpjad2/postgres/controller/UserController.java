@@ -10,6 +10,7 @@ import tpjad2.postgres.models.User;
 import tpjad2.postgres.service.UserService;
 
 import java.util.List;
+import java.util.Map;
 
 @AllArgsConstructor
 @RestController
@@ -30,9 +31,17 @@ public class UserController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteProduct(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
         userService.deleteUserById(id);
         return ResponseEntity.noContent().build();
     }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<User> updateUser(@PathVariable Long id, @RequestBody Map<String, String> updates) {
+        String name = updates.get("name");
+        User updatedUser = userService.updateUser(id, name);
+        return ResponseEntity.ok(updatedUser);
+    }
+
 }
 

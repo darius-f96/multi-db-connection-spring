@@ -2,6 +2,7 @@ package tpjad2.postgres.service;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import tpjad2.exceptions.ResourceNotFoundException;
 import tpjad2.mssql.repos.ProductRepository;
 import tpjad2.oracle.dto.OrderDTO;
 import tpjad2.oracle.models.Order;
@@ -47,5 +48,11 @@ public class UserService {
         user.setName(userRequestDTO.getName());
         return userRepository.save(user);
     }
+    public User updateUser(Long id, String name) {
+        User user = userRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("User not found"));
+        user.setName(name);
+        return userRepository.save(user);
+    }
+
 }
 

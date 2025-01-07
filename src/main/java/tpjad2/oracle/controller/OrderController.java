@@ -10,6 +10,7 @@ import tpjad2.oracle.models.Order;
 import tpjad2.oracle.service.OrderService;
 
 import java.util.List;
+import java.util.Map;
 
 @AllArgsConstructor
 @RestController
@@ -49,5 +50,13 @@ public class OrderController {
         Order order = orderService.createOrder(orderRequestDTO);
         return ResponseEntity.status(HttpStatus.CREATED).body(order);
     }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Order> updateOrderQuantity(@PathVariable Long id, @RequestBody Map<String, Integer> updates) {
+        int quantity = updates.get("quantity");
+        Order updatedOrder = orderService.updateOrderQuantity(id, quantity);
+        return ResponseEntity.ok(updatedOrder);
+    }
+
 }
 
