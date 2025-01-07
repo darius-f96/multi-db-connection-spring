@@ -21,7 +21,7 @@ React: A JavaScript library for building dynamic, component-based user interface
 <h2>Database Management</h2>
 
 Docker: A containerization platform used to run databases (Oracle, MySQL, PostgreSQL) in isolated environments. It ensures portability and ease of setup for the database instances.
-To preserve the state of the database in between docker compose down / up volumes were attached to the docker database containers as illustrated in the screenshot below:
+To preserve the state of the database in between docker compose down / up volumes were attached to the docker database containers.
  
 <h2>System Architecture</h2>
 
@@ -58,6 +58,7 @@ docker cp initOracle.sql oracle-container:/init.sql
 docker exec -it oracle-container bash -c "sqlplus -s system/ora123@//localhost/FREEPDB1 @/init.sql"
 ```
 -	More about the image here: https://hub.docker.com/r/gvenzl/oracle-xe
+  
 MySql:
 ```
 docker cp initMySql.sql mssql-container:/initMySql.sql
