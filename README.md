@@ -2,7 +2,7 @@ In order to setup the db tables you should do the following:
  Oracle: 
    - docker exec -it oracle-container resetPassword 'ora123'
    - navigate to init folder and run docker cp as following: docker cp initOracle.sql oracle-container:/init.sql
-   - docker exec -it oracle-container bash -c "sqlplus sys/Oradoc_db1@localhost:1521/ORCLCDB as sysdba @/init.sql" --> follow the prompts you might need to enter user: system and password 'ora123'
+   - docker exec -it oracle-container bash -c "sqlplus -s system/ora123@//localhost/FREEPDB1 @/init.sql"
    - More about the image here: https://hub.docker.com/r/gvenzl/oracle-xe
 
 MySql:
