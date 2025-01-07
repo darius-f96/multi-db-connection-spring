@@ -54,7 +54,12 @@ public class OrderController {
     @PutMapping("/{id}")
     public ResponseEntity<Order> updateOrderQuantity(@PathVariable Long id, @RequestBody Map<String, Integer> updates) {
         int quantity = updates.get("quantity");
-        Order updatedOrder = orderService.updateOrderQuantity(id, quantity);
+        Order updatedOrder;
+        try {
+            updatedOrder = orderService.updateOrderQuantity(id, quantity);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().build();
+        }
         return ResponseEntity.ok(updatedOrder);
     }
 
