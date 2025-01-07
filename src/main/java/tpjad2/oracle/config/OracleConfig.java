@@ -2,6 +2,7 @@ package tpjad2.oracle.config;
 
 import jakarta.persistence.EntityManagerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
@@ -20,16 +21,30 @@ import java.util.Properties;
 @Configuration
 @EnableTransactionManagement
 @EnableJpaRepositories(
-        basePackages = "tpjad2.tpjad2.repos",
+        basePackages = "tpjad2.oracle.repos",
         entityManagerFactoryRef = "oracleEntityManagerFactory",
         transactionManagerRef = "oracleTransactionManager"
 )
 public class OracleConfig {
 
+    @Value("${spring.datasource.oracle.url}")
+    private String oracleUrl;
+
+    @Value("${spring.datasource.oracle.username}")
+    private String oracleUsername;
+
+    @Value("${spring.datasource.oracle.password}")
+    private String oraclePassword;
+
     @Bean(name = "oracleDataSource")
     @ConfigurationProperties(prefix = "spring.datasource.oracle")
     public DataSource oracleDataSource() {
-        return DataSourceBuilder.create().build();
+        return DataSourceBuilder.create()
+                .url(oracleUrl)
+                .username(oracleUsername)
+                .password(oraclePassword)
+                .driverClassName("oracle.jdbc.OracleDriver")
+                .build();
     }
 
     @Bean(name = "oracleEntityManagerFactory")
@@ -37,7 +52,7 @@ public class OracleConfig {
             @Qualifier("oracleDataSource") DataSource dataSource) {
         LocalContainerEntityManagerFactoryBean factoryBean = new LocalContainerEntityManagerFactoryBean();
         factoryBean.setDataSource(dataSource);
-        factoryBean.setPackagesToScan("com.example.oracle.entity");
+        factoryBean.setPackagesToScan("tpjad2.oracle.models");
         factoryBean.setPersistenceUnitName("oracle");
 
         JpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();

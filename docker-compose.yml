@@ -4,9 +4,9 @@ services:
     container_name: postgres-container
     restart: always
     environment:
-      POSTGRES_USER: your_username
-      POSTGRES_PASSWORD: your_password
-      POSTGRES_DB: your_database
+      POSTGRES_USER: posadmin
+      POSTGRES_PASSWORD: pos123
+      POSTGRES_DB: userdb
     ports:
       - "5432:5432"
     volumes:
@@ -18,7 +18,8 @@ services:
     restart: always
     environment:
       ACCEPT_EULA: "Y"
-      SA_PASSWORD: your_password
+      SA_PASSWORD: mSq123!!
+      TrustServerCertificate: true
     ports:
       - "1433:1433"
     volumes:
@@ -29,7 +30,9 @@ services:
     container_name: oracle-container
     restart: always
     environment:
-      ORACLE_PASSWORD: your_password
+      ORACLE_PASSWORD: ora123
+      APP_USER: system
+      APP_USER_PASSWORD: ora123
     ports:
       - "1521:1521"
       - "5500:5500"
@@ -48,15 +51,15 @@ services:
       - "8080:8080"
       - "9990:9990"
     environment:
-      SPRING_DATASOURCE_POSTGRES_URL: jdbc:postgresql://localhost:5432/your_database
-      SPRING_DATASOURCE_POSTGRES_USERNAME: your_username
-      SPRING_DATASOURCE_POSTGRES_PASSWORD: your_password
-      SPRING_DATASOURCE_MSSQL_URL: jdbc:sqlserver://localhost:1433;databaseName=your_database
+      SPRING_DATASOURCE_POSTGRES_URL: jdbc:postgresql://postgres-container:5432/userdb
+      SPRING_DATASOURCE_POSTGRES_USERNAME: posadmin
+      SPRING_DATASOURCE_POSTGRES_PASSWORD: pos123
+      SPRING_DATASOURCE_MSSQL_URL: jdbc:sqlserver://mssql-container:1433;databaseName=productdb;encrypt=true;TrustServerCertificate=true
       SPRING_DATASOURCE_MSSQL_USERNAME: sa
-      SPRING_DATASOURCE_MSSQL_PASSWORD: your_password
-      SPRING_DATASOURCE_ORACLE_URL: jdbc:oracle:thin:@localhost:1521/your_service
+      SPRING_DATASOURCE_MSSQL_PASSWORD: mSq123!!
+      SPRING_DATASOURCE_ORACLE_URL: jdbc:oracle:thin:@oracle-container:1521/FREEPDB1
       SPRING_DATASOURCE_ORACLE_USERNAME: system
-      SPRING_DATASOURCE_ORACLE_PASSWORD: your_password
+      SPRING_DATASOURCE_ORACLE_PASSWORD: ora123
 
 volumes:
   postgres_data:

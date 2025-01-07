@@ -2,6 +2,7 @@ package tpjad2.mssql.config;
 
 import jakarta.persistence.EntityManagerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
@@ -20,16 +21,30 @@ import java.util.Properties;
 @Configuration
 @EnableTransactionManagement
 @EnableJpaRepositories(
-        basePackages = "tpjad2.tpjad2.repos",
+        basePackages = "tpjad2.mssql.repos",
         entityManagerFactoryRef = "mssqlEntityManagerFactory",
         transactionManagerRef = "mssqlTransactionManager"
 )
 public class MSSQLConfig {
 
+    @Value("${spring.datasource.mssql.url}")
+    private String mssqlUrl;
+
+    @Value("${spring.datasource.mssql.username}")
+    private String mssqlUsername;
+
+    @Value("${spring.datasource.mssql.password}")
+    private String mssqlPassword;
+
     @Bean(name = "mssqlDataSource")
     @ConfigurationProperties(prefix = "spring.datasource.mssql")
     public DataSource mssqlDataSource() {
-        return DataSourceBuilder.create().build();
+        return DataSourceBuilder.create()
+                .url(mssqlUrl)
+                .username(mssqlUsername)
+                .password(mssqlPassword)
+                .driverClassName("com.microsoft.sqlserver.jdbc.SQLServerDriver")
+                .build();
     }
 
     @Bean(name = "mssqlEntityManagerFactory")
@@ -37,7 +52,7 @@ public class MSSQLConfig {
             @Qualifier("mssqlDataSource") DataSource dataSource) {
         LocalContainerEntityManagerFactoryBean factoryBean = new LocalContainerEntityManagerFactoryBean();
         factoryBean.setDataSource(dataSource);
-        factoryBean.setPackagesToScan("com.example.mssql.entity");
+        factoryBean.setPackagesToScan("tpjad2.mssql.models");
         factoryBean.setPersistenceUnitName("mssql");
 
         JpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();

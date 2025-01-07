@@ -1,0 +1,9 @@
+CREATE DATABASE userdb;
+
+\c userdb;
+
+CREATE TABLE users (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(100),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);

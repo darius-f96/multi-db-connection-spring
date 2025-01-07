@@ -1,4 +1,4 @@
-package tpjad2.postgres.models;
+package tpjad2.mssql.models;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -9,14 +9,17 @@ import lombok.*;
 @ToString
 @AllArgsConstructor
 @Entity
-@Table(name = "users")
-public class User {
+@Table(name = "products")
+public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(name = "name")
     private String name;
+
+    @Column(name = "price")
+    private float price;
 
 }
 
