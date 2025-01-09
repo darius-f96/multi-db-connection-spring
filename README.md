@@ -112,6 +112,9 @@ OrderController:
 - `void deleteOrder(Long id)`
 
 <h2>Usage Examples</h2>
+
+![alt-text](https://github.com/darius-f96/tpjad-db/blob/main/frontend/src/FlowDiagramOrderCreation.png)
+
 Create a User
 Request:
 
